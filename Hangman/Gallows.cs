@@ -16,10 +16,12 @@ namespace Hangman
 		private readonly int lineOfGuess = 16;
 
 		internal bool win = false;
+		internal bool easymode;
 
-		internal Gallows(int wordLength)
+		internal Gallows(int wordLength, bool easymode)
 		{
 			currentGuess = new char[wordLength];
+			this.easymode = easymode;
 
 			for (int i = 0; i < wordLength; i++)
 			{
@@ -27,7 +29,7 @@ namespace Hangman
 			}
 		}
 
-		internal bool Success(char guess, int pos, bool wordGuess)
+		internal bool SubmitGuess(char guess, int pos, bool wordGuess)
 		{
 			currentGuess[pos] = guess;
 
@@ -44,6 +46,10 @@ namespace Hangman
 			{
 				win = true;
 				return true;
+			}
+			if(easymode)
+			{
+				return false;
 			}
 			return Fail();
 		}

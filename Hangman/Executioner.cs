@@ -12,10 +12,10 @@ namespace Hangman
 
 		public Gallows gallows;
 
-		internal Executioner(string word)
+		internal Executioner(string word, bool easymode)
 		{
 			this.word = word.ToUpper().ToCharArray();
-			gallows = new Gallows(this.word.Length);
+			gallows = new Gallows(this.word.Length, easymode);
 		}
 		internal void run()
 		{
@@ -56,7 +56,7 @@ namespace Hangman
 				{
 					if (word[i] == c)
 					{
-						if (gallows.Success(c, i, false))
+						if (gallows.SubmitGuess(c, i, false))
 						{
 							return true;
 						}
@@ -77,9 +77,6 @@ namespace Hangman
 		}
 		private bool Guess(char[] w)
 		{
-			//Console.WriteLine(w);
-			//Console.ReadKey(true);
-
 			if (w.Length == 0)
 			{
 				Console.WriteLine("No letters found, try again.");
@@ -93,10 +90,9 @@ namespace Hangman
 
 			if(string.Equals(w.ToString(), word.ToString()))
 			{
-				//guesses.Append(w);
 				for (int i = 0; i < w.Length; i++)
 				{
-					gallows.Success(w[i], i, true);
+					gallows.SubmitGuess(w[i], i, true);
 				}
 				return true;
 			}

@@ -20,7 +20,8 @@ namespace Hangman
 			{
 				StartQuery();
 
-				executioner = new Executioner(GetWord());
+				bool easymode = Difficulty();
+				executioner = new Executioner(GetWord(), easymode);
 
 				executioner.run();
 				Console.Clear();
@@ -49,7 +50,28 @@ namespace Hangman
 			Console.ReadKey(true);
 			Console.Clear();
 		}
+		private static bool Difficulty()
+		{
+			int x, y;
+			Console.Write("Select difficulty 1 or 2: ");
+			x = Console.CursorLeft;
+			y = Console.CursorTop;
+			Console.WriteLine("\n1. Easy: only incorrect guesses cost a try, if you are incorrect 10 times you lose.");
+			Console.WriteLine("2. Hard: you have a total of 10 guesses, correct or not.");
 
+			Console.SetCursorPosition(x, y);
+			ConsoleKeyInfo k = Console.ReadKey();
+			Console.SetCursorPosition(0, 5);
+			if(k.KeyChar == '1')
+			{
+				Console.WriteLine("\nEasymode is ON");
+				Console.ReadKey(true);
+				return true;
+			}
+			Console.WriteLine("\nEasymode is OFF");
+			Console.ReadKey(true);
+			return false;
+		}
 		private static string GetWord()
 		{
 			return dictionary[rand.Next(dictionary.Length)];
